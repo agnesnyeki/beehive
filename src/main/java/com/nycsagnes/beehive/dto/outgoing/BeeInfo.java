@@ -14,5 +14,5 @@ public class BeeInfo {
 
     private String beeName;
 
-    private Long hive;
+    private Long hiveId;
 }

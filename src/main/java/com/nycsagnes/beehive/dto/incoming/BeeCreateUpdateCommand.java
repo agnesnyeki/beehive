@@ -19,5 +19,5 @@ public class BeeCreateUpdateCommand {
     private String beeName;
 
     @NotNull
-    private Long hive;
+    private Long hiveId;
 }

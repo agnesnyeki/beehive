@@ -1,5 +1,6 @@
 package com.nycsagnes.beehive.controller;
 
+import com.nycsagnes.beehive.domain.Bee;
 import com.nycsagnes.beehive.dto.incoming.BeeCreateUpdateCommand;
 import com.nycsagnes.beehive.dto.outgoing.BeeInfo;
 import com.nycsagnes.beehive.service.BeeService;
@@ -8,10 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bees")
@@ -29,5 +29,26 @@ public class BeeController {
         log.info("Http Request, POST /api/bees, body: " + command.toString());
         BeeInfo beeInfo = beeService.save(command);
         return new ResponseEntity<>(beeInfo, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BeeInfo>> findAll (){
+        log.info("Http Request, GET /api/bees");
+        List<BeeInfo> bees = beeService.findAll();
+        return new ResponseEntity<>(bees, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BeeInfo> findById (@PathVariable("id") Long id){
+        log.info("Http Request, GET /api/bees/id");
+        BeeInfo bee = beeService.findById(id);
+        return new ResponseEntity<>(bee, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BeeInfo> updateBee (@PathVariable("id") Long id,
+                                              @RequestBody @Valid BeeCreateUpdateCommand command){
+        BeeInfo updatedBee = beeService.updateBee(id, command);
+        return new ResponseEntity<>(updatedBee, HttpStatus.OK);
     }
 }

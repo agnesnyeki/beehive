@@ -10,10 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/hives")
@@ -31,5 +30,12 @@ public class HiveController {
         log.info("Http Request, POST /api/hives, body: " + command.toString());
         HiveInfo hiveInfo= hiveService.save(command);
         return new ResponseEntity<>(hiveInfo, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<HiveInfo>> findAll (){
+        log.info("Http Request, GET /api/hives");
+        List<HiveInfo> hives = hiveService.findAll();
+        return new ResponseEntity<>(hives, HttpStatus.OK);
     }
 }
