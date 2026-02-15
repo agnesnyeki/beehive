@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Bees</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hive details</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/hive_style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="main-container">
+    <div class="header-section">
+        <h1>🐝 Iroda 🐝</h1>
+        <div class="stats-bar">
+            <span>Méhek száma: <strong th:text="${bees.size()}">0</strong></span>
+        </div>
+    </div>
+    <div th:if="${message}" class="alert-box">
+        <span class="alert-icon">💀</span>
+        <span th:text="${message}">Itt jelenik meg az üzenet</span>
+    </div>
+    <div class="button-container">
+        <a th:href="@{/web/hives}" class="btn-back">
+            <span class="btn-icon">❮</span>
+            <span class="btn-text">Vissza a Méhészetbe</span>
+        </a>
+        <a th:href="@{/web/bees/create}" class="btn-new-bee">
+            <span class="btn-icon">✚</span>
+            <span class="btn-text">Új Méh teremtése</span>
+        </a>
+    </div>
+    <ul class="bee-grid">
+        <li th:each="bee : ${bees}" class="bee-cell">
+            <div class="bee-link">
+                <div class="bee-image"
+                     th:style="'background-image: url(/images/beeImages/' + ${bee.beeType} + '.png);'">
+                </div>
+                <div class="honeycomb-text">
+                    <h3 th:href="@{/web/bees/{id}(id=${bee.id})}" th:text="${bee.beeName}">Méhecske neve</h3>
+                    <div th:if="${bee.hiveId != null}" class="hive-info-row">
+                        <a th:href="@{/web/hives/{id}(id=${bee.hiveId})}" class="hive-link">
+                            <span th:text="${bee.hiveName} + ' ❯' "></span>
+                        </a>
+                    </div>
+                    <div th:if="${bee.hiveId == null}" class="homeless-row">
+                        <a th:href="@{/web/bees/move-in/{id}(id=${bee.id})}" class="assign-link">
+                            Beköltöztetés ✚
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
 
+</div>
 </body>
 </html>

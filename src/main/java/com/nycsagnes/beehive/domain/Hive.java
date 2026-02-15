@@ -22,7 +22,14 @@ public class Hive {
     @Column(name = "hive_name")
     private String hiveName;
 
-    @OneToMany(mappedBy = "hive")
+    @OneToMany(mappedBy = "hive", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Bee> bees;
+
+    @PreRemove
+    private void preRemove() {
+        for (Bee bee : bees) {
+            bee.setHive(null);
+        }
+    }
 
 }

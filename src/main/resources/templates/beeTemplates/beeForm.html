@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiveForm</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/hive_style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<form th:action="@{/web/bees/create}" class="hive-form" method="post" th:object="${bee}">
+    <input type="hidden" th:field="*{hiveId}"/>
+    <input type="hidden" th:if="*{hiveId != null}" th:field="*{beeType}"/>
+    <div class="form-group">
+        <label for="beeName">Méh neve:</label>
+        <input type="text" id="beeName" th:field="*{beeName}" required/>
+    </div>
+    <div class="form-group" th:if="${bee.getBeeType() == null}">
+        <label for="beeType">Méh munkaköre:</label>
+        <select id="beeType" th:field="*{beeType}" required>
+            <option value="" disabled selected>Válassz munkakört</option>
+            <option value="QUEEN">Királynő</option>
+            <option value="WORKER">Dolgozó</option>
+            <option value="DRONE">Here</option>
+        </select>
+    </div>
+    <div class="form-group" th:if="${bee.getBeeType() != null}">
+        <label for="beeType">Méh munkaköre:</label>
+        <div class="bee-type-display">
+            <span th:text="*{beeType}">Típus</span>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button type="submit" class="btn-save">
+            <span th:if="*{hiveId != null}">Mentés</span>
+            <span th:if="*{hiveId == null}">Tovább</span>
+        </button>
+        <a th:if="*{hiveId != null}" th:href="@{/web/hives/{id}(id=*{hiveId})}" class="btn-cancel">Mégse</a>
+        <a th:if="*{hiveId == null}" th:href="@{/web/bees}" class="btn-cancel">Mégse</a>
+    </div>
+</form>
+</body>
+</html>

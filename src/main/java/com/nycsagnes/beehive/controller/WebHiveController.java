@@ -37,7 +37,7 @@ public class WebHiveController {
             return "redirect:/web/hives";
         }
         model.addAttribute("hive", foundHive);
-        return "hiveTemplates/hive-details";
+        return "hiveTemplates/hiveDetails";
     }
 
     @GetMapping("/new")
@@ -47,10 +47,17 @@ public class WebHiveController {
         return "hiveTemplates/hiveForm";
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public String saveHive(HiveCreateUpdateCommand command) {
-        log.info("Web Request, POST /web/hives, body: " + command.toString());
+        log.info("Web Request, POST /web/hives/new, body: " + command.toString());
         hiveService.save(command);
+        return "redirect:/web/hives";
+    }
+
+    @PostMapping ("/delete/{id}")
+    public String deleteHive(@PathVariable Long id) {
+        log.info("Web Request, POST /web/hives/delete/{id}");
+        hiveService.deleteHive(id);
         return "redirect:/web/hives";
     }
 }
