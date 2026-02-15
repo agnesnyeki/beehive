@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="hu" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width initial-scale=1.0">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hives</title>
-    <link rel="stylesheet" th:href="@{/stylesheets/hiveStyles/hive_style.css}">
+    <link rel="stylesheet" th:href="@{/stylesheets/hive_style.css}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="hive-body">
 
 <div class="main-container">
     <h1 class="page-title">🐝 Méhészet 🐝</h1>
-
-    <div style="text-align: center; margin-bottom: 40px;">
-        <a th:href="@{/web/hives/new}" class="btn-new-hive">+ Új Kaptár Építése</a>
+    <div class="button-container">
+        <a th:href="@{/web/hives/new}" class="morph-btn btn-nav btn-action btn-left">
+            <span class="btn-icon">✚</span>
+            <span class="btn-text">Új Kaptár Építése</span>
+        </a>
+        <a th:href="@{/web/bees}" class="morph-btn btn-nav btn-navi btn-right">
+            <span class="btn-icon">❯</span>
+            <span class="btn-text">Méh-nyilvántartó Iroda</span>
+        </a>
     </div>
-
     <ul class="honeycomb-grid">
 
         <li class="honeycomb-cell" th:each="hive : ${hives}">
@@ -38,9 +43,13 @@
                     </div>
                 </div>
             </a>
+            <form th:action="@{/web/hives/delete/{id}(id=${hive.id})}" method="post" class="delete-form">
+                <button type="submit" class="delete-icon"
+                        onclick="return confirm('Biztosan lerombolod ezt a kaptárat? A lakók hajléktalanok lesznek!')">
+                    🗑️
+                </button>
+            </form>
         </li>
-
-        <li class="honeycomb-cell placeholder"></li>
     </ul>
 </div>
 

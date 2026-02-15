@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hive details</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/hive_style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header-section">
+        <h1 th:text="${hive.hiveName}">Kaptár Neve</h1>
+        <div class="stats-bar">
+            <span>Népesség: <strong th:text="${hive.bees.size()}">0</strong></span>
+        </div>
+    </div>
+    <div th:if="${message}" class="alert-box">
+        <span class="alert-icon">💀</span>
+        <span th:text="${message}">Itt jelenik meg az üzenet</span>
+    </div>
+    <div class="button-container">
+        <a th:href="@{/web/hives}" class="morph-btn btn-nav btn-navi btn-left">
+            <span class="btn-icon">❮</span>
+            <span class="btn-text">Vissza a Méhészetbe</span>
+        </a>
+        <a th:href="@{/web/bees}" class="morph-btn btn-nav btn-navi btn-right">
+            <span class="btn-icon">❯</span>
+            <span class="btn-text">Méh-nyilvántartó Iroda</span>
+        </a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(hive.bees)}" class="bee-grid">
+        <div class="queen-placeholder-cell">
+            <a th:href="@{/web/bees/create(hiveId=${hive.id}, beeType='QUEEN')}" class="queen-link">
+                <div class="bee-image"
+                     th:style="'background-image: url(/images/beeImages/Placeholder_queen.png); filter: grayscale(100%);'">
+                </div>
+                <div class="honeycomb-text">
+                    <h3>+</h3>
+                    <div class="bee-role">Királynő<br>beköltöztetése</div>
+                </div>
+            </a>
+        </div>
+        <div class="empty-message">
+            <p>Ez a kaptár jelenleg üres.</p>
+            <p>Még csak a szél zümmög benne.</p>
+        </div>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(hive.bees)}" class="populated-state">
+        <div th:if="${hive.bees != null}" class="queen-throne">
+            <div class="queen-cell" th:if="${hive.queen != null}">
+                <a th:href="@{/web/bees/{id}(id=${hive.queen.id})}" class="bee-link">
+                    <div class="bee-image"
+                         th:style="'background-image: url(/images/beeImages/QUEEN.png);'">
+                    </div>
+                    <div class="honeycomb-text">
+                        <div class="bee-role"><span>👑</span></div>
+                        <h3 th:text="${hive.queen.getBeeName()}">Maya</h3>
+                    </div>
+                </a>
+                <form th:action="@{/web/bees/evict/{id}(id=${hive.queen.getId()})}" method="post">
+                    <button type="submit" class="ghost-btn"
+                            th:data-confirm-msg="
+                               'Vigyázz! Ha a Királynőt kilakoltatod, a teljes kaptár kiürül! Biztos vagy benne?'"
+                            onclick="return confirm(this.getAttribute('data-confirm-msg'));">
+                        ❌
+                    </button>
+                </form>
+            </div>
+        </div>
+        <ul class="drone-grid" th:with="droneList=${hive.drones}">
+            <li class="drone-cell" th:each="bee : ${droneList}">
+                <a th:href="@{/web/bees/{id}(id=${bee.id})}" class="bee-link">
+                    <div class="bee-image"
+                         th:style="'background-image: url(/images/beeImages/' + ${bee.beeType.name()} + '.png);'">
+                    </div>
+                    <div class="honeycomb-text">
+                        <div class="bee-role"><span>♂️</span></div>
+                        <h3 th:text="${bee.beeName}">Maya</h3>
+                    </div>
+                </a>
+                <form th:action="@{/web/bees/evict/{id}(id=${bee.id})}" method="post">
+                    <button type="submit" class="ghost-btn" onclick="return confirm('Biztos?');">❌</button>
+                </form>
+            </li>
+            <th:block th:if="${droneList.size() < 2}">
+                <li class="drone-cell" th:each="i : ${#numbers.sequence(1, 2 - droneList.size())}">
+                    <a th:href="@{/web/bees/create(hiveId=${hive.id}, beeType='DRONE')}"
+                       class="bee-link placeholder-link">
+                        <div class="bee-image" style="background-image: url(/images/beeImages/Placeholder_drone.png);"></div>
+                        <div class="honeycomb-text">
+                            <h3>+</h3>
+                            <span class="pop-badge">Új Here</span>
+                        </div>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+        <ul class="bee-grid">
+            <li class="bee-cell" th:if="${hive.workers != null}" th:each="bee : ${hive.workers}">
+                <th:block th:if="${bee.id != null}">
+                    <a th:href="@{/web/bees/{id}(id=${bee.id})}" class="bee-link">
+                        <div class="bee-image"
+                             th:style="'background-image: url(/images/beeImages/' + ${bee.beeType.name()} + '.png);'">
+                        </div>
+                        <div class="honeycomb-text">
+                            <div class="bee-role"><span>🐝</span></div>
+                            <h3 th:text="${bee.beeName}">Maya</h3>
+                        </div>
+                    </a>
+                    <form th:action="@{/web/bees/evict/{id}(id=${bee.id})}" method="post">
+                        <button type="submit" class="ghost-btn"
+                                th:data-confirm-msg="'Biztosan kilakoltatod ezt a méhet?'"
+                                onclick="return confirm(this.getAttribute('data-confirm-msg'));">
+                            ❌
+                        </button>
+                    </form>
+                </th:block>
+            </li>
+            <li class="bee-cell placeholder">
+                <a th:href="@{/web/bees/create(hiveId=${hive.id}, beeType='WORKER')}" class="bee-link placeholder-link">
+                    <div class="bee-image"
+                         th:style="'background-image: url(/images/beeImages/Placeholder_worker.png);'">
+                    </div>
+                    <div class="honeycomb-text">
+                        <h3>+</h3>
+                        <span class="pop-badge">Új Dolgozó</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

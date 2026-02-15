@@ -10,9 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BeeInfo {
 
+    private Long id;
+
     private BeeType beeType;
 
     private String beeName;
 
     private Long hiveId;
+
+    private String hiveName;
+
+    private Long ageInDays;
+
 }

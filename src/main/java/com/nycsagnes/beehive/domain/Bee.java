@@ -1,9 +1,12 @@
 package com.nycsagnes.beehive.domain;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -24,7 +27,11 @@ public class Bee {
 
     @ManyToOne
     @ToString.Exclude
+    @Nullable
     @JoinColumn(name = "hive_id")
     private Hive hive;
+
+    @Column
+    private LocalDate birthdate;
 
 }

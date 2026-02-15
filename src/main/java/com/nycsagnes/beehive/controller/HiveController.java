@@ -38,4 +38,12 @@ public class HiveController {
         List<HiveInfo> hives = hiveService.findAll();
         return new ResponseEntity<>(hives, HttpStatus.OK);
     }
+
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<Void> deleteHive(@PathVariable Long id) {
+        log.info("Http Request, DELETE /api/hives/{id}");
+        hiveService.deleteHive(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
 }

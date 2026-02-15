@@ -1,0 +1,724 @@
+/* =========================================
+   1. ALAP BEÁLLÍTÁSOK (RESET & GLOBAL)
+   ========================================= */
+:root{
+    --honey-background: #F9D89C;
+    --cell-background: #F5A7A7;
+    --action-button: #82C4C3;
+    --navi-button: #BC658D;
+    --text-dark: #355872;
+    --text-link: #7AAACE;
+    --white: #ffffff;
+    --danger-red: #ff4d4d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--honey-background);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern betűtípus */
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.main-container,
+.container {
+    max-width: 100vw;
+    margin: 0 auto;
+    padding: 5vw;
+}
+
+h1, h2, h3, .stats-bar {
+    text-align: center;
+    color: #2c3e50;
+}
+
+.page-title {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5vw 0 5vw;
+    margin: 2vw auto 0 auto;
+}
+
+/* =========================================
+   2. GOMBOK ÉS LINKEK STÍLUSA
+   ========================================= */
+
+.morph-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    color: var(--white);
+    z-index: 20;
+    padding: 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    white-space: nowrap;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.button-container {
+    position: relative;
+    width: 90%;
+    height: 50px;
+    padding: 0 5vw 0 5vw;
+    margin: 5vw auto 5vw auto;
+}
+
+.btn-action { background-color: var(--action-button); }
+.btn-action:hover { background-color: #6fb3b2; }
+
+.btn-navi { background-color: var(--navi-button); }
+.btn-navi:hover { background-color: #a65378; }
+
+.btn-nav{
+    padding: 10px 25px;
+    height: 50px;
+    min-width: 70px;
+}
+
+.btn-list {
+    position: absolute;
+    width: clamp(35px, 12vw, 45px);
+    height: clamp(35px, 12vw, 45px);
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-hex {
+    position: absolute;
+    width: clamp(35px, 10vw, 45px);
+    height: clamp(35px, 10vw, 45px);
+}
+
+.btn-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    flex-direction: row;
+}
+
+.btn-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    flex-direction: row-reverse;
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+    flex-shrink: 0;
+    height: 100%;
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.btn-text {
+    max-width: 0;
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 0;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.morph-btn:hover {
+    transform: scale(1.1) translateY(-2px);
+    width: auto;
+    z-index: 100;
+    padding: 0 15px;
+}
+.morph-btn:hover .btn-icon {
+    width: 0; opacity: 0; transform: scale(0);
+}
+.morph-btn:hover .btn-text {
+    max-width: 200px;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.btn-nav:hover {
+    padding: 0 25px;
+    z-index: 100;
+}
+
+.btn-nav:hover .btn-icon {
+    width: 0;
+    opacity: 0;
+    transform: scale(0);
+}
+
+.btn-nav:hover .btn-text {
+    max-width: 200px;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.btn-right:hover .btn-text {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.btn-list:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    width: clamp(80px, 10vw, 110px);
+    padding: 0 10px;
+}
+
+.btn-list:hover .btn-icon {
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    display: none !important;
+}
+
+.btn-list:hover .btn-text {
+    margin: 0;
+    width: 100%;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.ghost-btn {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: var(--cell-background);
+    color: var(--danger-red);
+    border: none;
+    border-radius: 50%;
+    width: 15%;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.2s;
+}
+
+.ghost-btn:hover { transform: translateX(-50%) scale(1.2); }
+
+/* 4. POZÍCIÓK (beeDetails) - Ezt add hozzá bátran */
+.pos-top-left { top: 10%; left: 25%; transform-origin: top left; }
+.pos-mid-left { top: 50%; left: 10%; transform: translateY(-50%); transform-origin: center left; }
+.pos-bot-left { bottom: 10%; left: 25%; transform-origin: bottom left; }
+
+.pos-top-right { top: 10%; right: 25%; flex-direction: row-reverse; transform-origin: top right; }
+.pos-mid-right { top: 50%; right: 10%; transform: translateY(-50%); flex-direction: row-reverse; transform-origin: center right; }
+.pos-bot-right { bottom: 10%; right: 25%; flex-direction: row-reverse; transform-origin: bottom right; }
+
+.btn-hex:hover {
+    width: clamp(120px, 15vw, 140px);
+    padding: 0 10px;
+}
+
+.pos-mid-left:hover,
+.pos-mid-right:hover {
+    transform: translateY(-50%) scale(1.1) !important;
+}
+
+.pos-top-left:hover, .pos-top-right:hover,
+.pos-bot-left:hover, .pos-bot-right:hover {
+    transform: scale(1.1) !important;
+}
+
+.btn-hex:hover .btn-icon {
+    display: none !important;
+}
+.btn-hex:hover .btn-text {
+    width: 100%;
+    justify-content: center;
+    margin: 0;
+}
+
+
+.hive-form {
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Szép árnyék */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: var(--cell-background);
+    outline: none;
+}
+
+/* =========================================
+   3. KÖZÖS CELLA LOGIKA
+   ========================================= */
+
+.honeycomb-grid,
+.bee-grid,
+.queen-throne,
+.drone-grid {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin-left: 2vw;
+    line-height: 0;
+    font-size: 0;
+}
+
+.honeycomb-grid {
+    width: 84vw;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.bee-grid,
+.drone-grid,
+.queen-throne {
+    width: 84vw;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.honeycomb-cell,
+.bee-cell,
+.queen-cell,
+.drone-cell,
+.queen-placeholder-cell,
+.bee-details-cell {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+    pointer-events: auto;
+    background-color: var(--cell-background);
+}
+
+.honeycomb-cell{
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.bee-cell,
+.queen-cell,
+.drone-cell,
+.queen-placeholder-cell,
+.bee-details-cell {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.honeycomb-link,
+.bee-link,
+.queen-link,
+.placeholder-link {
+    display: block;
+    color: var(--white);
+    text-decoration: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--cell-background);
+    transition: transform 0.3s ease, background-color 0.3s;
+}
+
+.honeycomb-image,
+.bee-image,
+.bee-details-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+.honeycomb-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    opacity: 0;
+    background-color: var(--honey-background);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.honeycomb-text h3 {
+    color: white;
+    font-size: clamp(1rem, 5vw, 2rem);
+    margin: 0 0 5vw 0;
+    text-transform: uppercase;
+    text-shadow: none;
+}
+
+/* =========================================
+   4. INTERAKCIÓK & HOVER (KÖZÖS)
+   ========================================= */
+
+.honeycomb-cell:hover,
+.bee-cell:hover,
+.queen-cell:hover,
+.drone-cell:hover,
+.queen-placeholder-cell:hover {
+    z-index: 50;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.honeycomb-cell:hover .honeycomb-text,
+.bee-cell:hover .honeycomb-text,
+.queen-cell:hover .honeycomb-text,
+.drone-cell:hover .honeycomb-text,
+.queen-placeholder-cell:hover .honeycomb-text,
+.honeycomb-cell:hover .ghost-btn,
+.bee-cell:hover .ghost-btn,
+.queen-cell:hover .ghost-btn,
+.drone-cell:hover .ghost-btn {
+    opacity: 1;
+    background-color: var(--cell-background);
+}
+
+.pop-badge {
+    color: white;
+    margin: 3vw 0 0 0;
+    font-size: 3vw;
+    text-shadow: none;
+}
+
+
+.honeycomb-cell:hover .honeycomb-link {
+    background-color: var(--cell-background) !important;
+}
+
+.ghost-btn:hover {
+    z-index: 20;
+    background-color: var(--cell-background);
+    transform: translateX(-50%) scale(1.2);
+}
+
+.drone-grid:has(.drone-cell:hover),
+.bee-grid:has(.bee-cell:hover),
+.queen-throne:has(.queen-cell:hover) {
+    z-index:100;
+}
+
+.bee-cell:hover .bee-image {
+    opacity: 0 !important;
+}
+
+/* =========================================
+   5. SPECIFIKUS LAYOUT DESIGN
+   ========================================= */
+
+.queen-throne {
+    margin: -10vw 24vw 0 2vw;
+    z-index: 30;
+}
+
+
+.drone-grid {
+    z-index: 20;
+}
+
+.queen-placeholder-cell {
+    width: 50%;
+    aspect-ratio: 1.1/1;
+    margin: auto;
+}
+
+.empty-message {
+    text-align: center;
+    margin-top: 5vw;
+    color: var(--white);
+    text-shadow: 1px 1px 2px black;
+}
+
+/* =========================================
+   6. MÉH KÁRTYA BELSŐ ELEMEK (Adatok és Linkek)
+   ========================================= */
+
+.bee-role {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #f0f0f0;
+    margin-top: -5vw;
+    margin-bottom: 7.5vw;
+    text-shadow: none;
+    text-transform: none;
+}
+
+.hive-info-row,
+.homeless-row {
+    margin-top: 5px;
+    z-index: 20;
+}
+
+.label {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin-right: 5px;
+}
+
+.hive-link,
+.assign-link {
+    display: inline-block;
+    color: #FFD700;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    pointer-events: auto;
+}
+
+.assign-link {
+    color: #FF8C00;
+}
+
+.hive-link:hover,
+.assign-link:hover {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    transform: translateX(3px);
+}
+
+.hive-link span,
+.assign-link span,
+.bee-type-display span {
+    font-size: clamp(0.75rem, 3.5vw, 1rem);
+}
+
+.alert-box {
+    background-color: #2c3e50; /* Sötét, elegáns */
+    color: #e74c3c; /* Vérvörös szöveg */
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #e74c3c;
+    margin: 20px auto;
+    text-align: center;
+    font-weight: bold;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================================
+   7. RESPONSIVE MEDIA QUERIES
+   ========================================= */
+
+@media (min-width: 1025px) {
+
+    .honeycomb-cell {
+        flex: 0 1 21vw;
+        max-width: 21vw;
+        aspect-ratio: 0.833333;
+        margin-bottom: calc(21vw / 0.833333 * -0.25);
+    }
+
+    .honeycomb-cell:nth-child(7n + 5) {
+        margin-left: 12.5%;
+    }
+
+    .honeycomb-cell:nth-child(7n + 7) {
+        margin-right: 12.5%;
+    }
+
+    .bee-grid {
+        justify-content: flex-start;
+    }
+
+    .bee-cell, .queen-cell, .drone-cell {
+        flex: 0 1 14vw;
+        max-width: 14vw;
+        aspect-ratio: 1.1/1;
+        max-height: 15.4vw;
+        margin-bottom: calc(14vw / 1.1 * -0.5);
+    }
+
+    .bee-cell:nth-child(7n + 1){
+        margin-right: 3.5vw;
+        margin-left: 14vw;
+    }
+
+    .bee-cell:nth-child(7n + 3), .bee-cell:nth-child(7n + 7){
+        margin-left: 3.5vw;
+    }
+
+    .bee-cell:nth-child(7n + 2), .bee-cell:nth-child(7n + 4), .bee-cell:nth-child(7n + 5), .bee-cell:nth-child(7n + 6){
+        margin-left: 3.5vw;
+        margin-right: 3.5vw;
+    }
+
+    .drone-cell:nth-child(2n + 1){
+        margin-right: 3.5vw;
+        margin-left: 24.5vw;
+    }
+
+    .drone-cell:nth-child(2n + 2){
+        margin-left: 3.5vw;
+        margin-right: 24.5vw;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 431px) {
+
+    .honeycomb-cell {
+        flex: 0 1 28vw;
+        max-width: 28vw;
+        aspect-ratio: 0.833333;
+        margin-bottom: calc(28vw / 0.833333 * -0.25);
+    }
+
+    .honeycomb-cell:nth-child(5n + 4) {
+        margin-left: 16.6%
+    }
+
+    .honeycomb-cell:nth-child(5n + 5) {
+        margin-right: 16.6%
+    }
+
+    .bee-grid {
+        justify-content: flex-start;
+    }
+
+    .bee-cell, .queen-cell, .drone-cell {
+        flex: 0 1 21vw;
+        max-width: 21vw;
+        aspect-ratio: 1.1/1;
+        max-height: 23.1vw;
+        margin-bottom: calc(21vw / 1.1 * -0.5);
+    }
+
+    .bee-cell:nth-child(5n + 1), .drone-cell:nth-child(2n + 1) {
+        margin-right: 5.25vw;
+    }
+
+    .bee-cell:nth-child(5n + 2){
+        margin-left: 5.25vw;
+        margin-right: 5.25vw;
+    }
+
+    .bee-cell:nth-child(5n + 3), .bee-cell:nth-child(5n + 5), .drone-cell:nth-child(2n + 2) {
+        margin-left: 5.25vw;
+    }
+
+    .bee-cell:nth-child(5n + 4){
+        margin-right: 5.25vw;
+        margin-left: 15.75vw;
+    }
+
+}
+
+@media (max-width: 430px) {
+
+    .queen-throne {
+        margin-top: 0;
+    }
+
+    .honeycomb-cell {
+        flex: 0 1 42vw;
+        max-width: 42vw;
+        aspect-ratio: 0.833333;
+        margin-bottom: calc(42vw / 0.833333 * -0.25); /* Negatív margó, hogy felugorjon a sejt a helyére */
+    }
+
+    .honeycomb-cell:nth-child(3n + 3) {
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+
+    .bee-cell, .queen-cell, .drone-cell {
+        flex: 0 1 32vw;
+        max-width: 32vw;
+        aspect-ratio: 1.1/1;
+        max-height: 35.1vw;
+        margin-bottom: calc(32vw / 1.1 * -0.5);;
+    }
+
+    .bee-cell:nth-child(3n + 1) {
+        margin-left: 24vw;
+        margin-right: 24vw;
+    }
+    .bee-cell:nth-child(3n + 2), .drone-cell:nth-child(2n + 1) {
+        margin-right: 8vw;
+    }
+    .bee-cell:nth-child(3n + 3), .drone-cell:nth-child(2n + 2) {
+        margin-left: 8vw;
+    }
+
+}
