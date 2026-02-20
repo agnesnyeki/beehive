@@ -235,7 +235,6 @@ h1, h2, h3, .stats-bar {
 
 .ghost-btn:hover { transform: translateX(-50%) scale(1.2); }
 
-/* 4. POZÍCIÓK (beeDetails) - Ezt add hozzá bátran */
 .pos-top-left { top: 10%; left: 25%; transform-origin: top left; }
 .pos-mid-left { top: 50%; left: 10%; transform: translateY(-50%); transform-origin: center left; }
 .pos-bot-left { bottom: 10%; left: 25%; transform-origin: bottom left; }
@@ -267,7 +266,6 @@ h1, h2, h3, .stats-bar {
     justify-content: center;
     margin: 0;
 }
-
 
 .hive-form {
     max-width: 500px;
@@ -720,5 +718,4 @@ input:focus {
     .bee-cell:nth-child(3n + 3), .drone-cell:nth-child(2n + 2) {
         margin-left: 8vw;
     }
-
 }
