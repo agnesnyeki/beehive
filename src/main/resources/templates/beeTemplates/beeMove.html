@@ -7,8 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form th:action="@{/web/bees/move-in}" class="hive-form" method="post" th:object="${movingBee}">
+<form th:action="${isNewBee != null && isNewBee} ? @{/web/bees/create} : @{/web/bees/move-in}"
+      class="hive-form" method="post" th:object="${movingBee}">
+
+        <input type="hidden" th:if="${isNewBee != null && isNewBee}" th:field="*{beeName}" />
+        <input type="hidden" th:if="${isNewBee != null && isNewBee}" th:field="*{beeType}" />
+        <input type="hidden" th:if="${isNewBee == null || !isNewBee}" th:field="*{id}" />
         <input type="hidden" th:field="*{id}"/>
+
         <div class="form-group">
             <label>Bee Name:</label>
             <div class="bee-name-display">

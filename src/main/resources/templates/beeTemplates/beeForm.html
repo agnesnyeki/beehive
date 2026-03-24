@@ -35,7 +35,7 @@
             <span th:if="*{hiveId != null}">Save</span>
             <span th:if="*{hiveId == null}">Next</span>
         </button>
-        <a th:if="*{hiveId != null}" th:href="@{/web/hives/{id}(id=*{hiveId})}" class="btn-navi">Cancel</a>
+        <a th:if="*{hiveId != null}" th:href="@{/web/hives/{id}(id=*{hiveId})}" class="static-btn btn-navi">Cancel</a>
         <a th:if="*{hiveId == null}" th:href="@{/web/bees}" class="static-btn btn-navi">Cancel</a>
     </div>
 </form>

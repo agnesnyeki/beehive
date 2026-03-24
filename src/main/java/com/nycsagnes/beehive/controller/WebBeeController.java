@@ -60,13 +60,26 @@ public class WebBeeController {
     }
 
     @PostMapping ("/create")
-    public String createBeeSubmit(@ModelAttribute ("bee") BeeCreateUpdateCommand bee) {
+    public String createBeeSubmit(@ModelAttribute ("bee") BeeCreateUpdateCommand bee, Model model) {
         log.info("Http Request, POST /web/bees/create");
-        BeeInfo savedBee = beeService.save(bee);
+
         if (bee.getHiveId() != null) {
+            // 2. LÉPÉS VÉGE: Ha már van kaptár (vagy direkt kaptárból indítottuk a létrehozást)
+            // Itt történik a VÉGLEGES MENTÉS az adatbázisba!
+            beeService.save(bee);
             return "redirect:/web/hives/" + bee.getHiveId();
+        } else {
+            // 1. LÉPÉS VÉGE: Nincs még kaptár! NE MENTSÜK EL, csak vigyük tovább az adatokat.
+            // Lekérjük a szabad kaptárakat a megadott méh típus alapján:
+            List<HiveInfo> availableHives = hiveService.findAvailableHives(bee.getBeeType());
+
+            // Átadjuk az eddig kitöltött adatokat (név, típus) a 2. oldalnak
+            model.addAttribute("movingBee", bee);
+            model.addAttribute("availableHives", availableHives);
+            model.addAttribute("isNewBee", true); // Ezzel jelezzük a HTML-nek, hogy ez egy VADONATÚJ méh!
+
+            return "beeTemplates/beeMove"; // Újrahasznosítjuk a költöztető sablont
         }
-        else return "redirect:/web/bees/move-in/" + bee.getId();
     }
 
     @GetMapping("/move-in/{id}")
