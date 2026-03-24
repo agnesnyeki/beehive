@@ -418,6 +418,31 @@ h1, h2, h3, .stats-bar {
     margin: 0;
 }
 
+/* =========================================
+   FIX ŰRLAP GOMBOK (Animáció nélkül)
+   ========================================= */
+.static-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    padding: 0 30px;
+    border-radius: 25px; /* Kapszula forma */
+    border: none;
+    cursor: pointer;
+    color: var(--white);
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Alap árnyék */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Finom kiemelkedés és árnyék-növekedés hoverre */
+.static-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
 .hive-form {
     max-width: 500px;
     margin: 40px auto;
@@ -563,12 +588,17 @@ input:focus {
     transition: opacity 0.3s ease-in-out;
 }
 
-.honeycomb-text h3 {
+.honeycomb-text h3,
+.honeycomb-text h4{
     color: white;
     font-size: clamp(1rem, 5vw, 2rem);
-    margin: 0 0 3vw 0;
+    margin: 2vw 0 3vw 0;
     text-transform: uppercase;
     text-shadow: none;
+}
+
+.honeycomb-text h4{
+    margin-top: 0;
 }
 
 /* =========================================
@@ -665,6 +695,10 @@ input:focus {
     margin-bottom: 3vw;
     text-shadow: none;
     text-transform: none;
+}
+
+.queen-role{
+    margin-top: 2vw;
 }
 
 .hive-info-row,
