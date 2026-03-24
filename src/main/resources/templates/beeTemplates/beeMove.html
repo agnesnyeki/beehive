@@ -10,36 +10,36 @@
 <form th:action="${isNewBee != null && isNewBee} ? @{/web/bees/create} : @{/web/bees/move-in}"
       class="hive-form" method="post" th:object="${movingBee}">
 
-        <input type="hidden" th:if="${isNewBee != null && isNewBee}" th:field="*{beeName}" />
-        <input type="hidden" th:if="${isNewBee != null && isNewBee}" th:field="*{beeType}" />
-        <input type="hidden" th:if="${isNewBee == null || !isNewBee}" th:field="*{id}" />
-        <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{beeName}" />
+    <input type="hidden" th:field="*{beeType}" />
 
-        <div class="form-group">
-            <label>Bee Name:</label>
-            <div class="bee-name-display">
-                <span th:text="*{beeName}">NAME</span>
-            </div>
+    <div class="form-group">
+        <label>Bee Name:</label>
+        <div class="bee-name-display">
+            <span th:text="*{beeName}">NAME</span>
         </div>
-        <input type="hidden" th:field="*{beeName}"/>
-        <div class="form-group" th:if="*{beeType != null}">
-            <label th:for="*{beeType}">Role:</label>
-            <div class="bee-type-display">
-                <span th:text="*{beeType}">Type</span>
-            </div>
+    </div>
+
+    <div class="form-group" th:if="*{beeType != null}">
+        <label>Role:</label>
+        <div class="bee-type-display">
+            <span th:text="*{beeType}">Type</span>
         </div>
-        <input type="hidden" th:field="*{beeType}"/>
-        <div class="form-group">
-            <label for="hiveId">New Hive:</label>
-            <select id="hiveId" th:field="*{hiveId}" required>
-                <option value="" disabled selected>Select a hive</option>
-                <option th:each="hive : ${availableHives}" th:value="${hive.id}" th:text="${hive.hiveName}"></option>
-            </select>
-        </div>
-        <div class="button-container" style="text-align: center; margin-top: 20px;">
-            <button type="submit" class="static-btn btn-action">Save</button>
-            <a th:href="@{/web/bees}" class="static-btn btn-navi">Cancel</a>
-        </div>
-    </form>
+    </div>
+
+    <div class="form-group">
+        <label for="hiveId">New Hive:</label>
+        <select id="hiveId" th:field="*{hiveId}" required>
+            <option value="" disabled selected>Select a hive</option>
+            <option th:each="hive : ${availableHives}" th:value="${hive.id}" th:text="${hive.hiveName}"></option>
+        </select>
+    </div>
+
+    <div class="button-container" style="text-align: center; margin-top: 20px;">
+        <button type="submit" class="static-btn btn-action">Save</button>
+        <a th:href="@{/web/bees}" class="static-btn btn-navi">Cancel</a>
+    </div>
+</form>
 </body>
 </html>

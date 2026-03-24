@@ -58,20 +58,13 @@ public class BeeService {
         List<Bee> bees = beeRepository.findAll();
         
         if (filter != null) {
-            switch (filter.toUpperCase()) {
-                case "QUEEN":
-                    bees = bees.stream().filter(b -> b.getBeeType() == BeeType.QUEEN).toList();
-                    break;
-                case "DRONE":
-                    bees = bees.stream().filter(b -> b.getBeeType() == BeeType.DRONE).toList();
-                    break;
-                case "WORKER":
-                    bees = bees.stream().filter(b -> b.getBeeType() == BeeType.WORKER).toList();
-                    break;
-                case "HOMELESS":
-                    bees = bees.stream().filter(b -> b.getHive() == null).toList();
-                    break;
-            }
+            bees = switch (filter.toUpperCase()) {
+                case "QUEEN" -> bees.stream().filter(b -> b.getBeeType() == BeeType.QUEEN).toList();
+                case "DRONE" -> bees.stream().filter(b -> b.getBeeType() == BeeType.DRONE).toList();
+                case "WORKER" -> bees.stream().filter(b -> b.getBeeType() == BeeType.WORKER).toList();
+                case "HOMELESS" -> bees.stream().filter(b -> b.getHive() == null).toList();
+                default -> bees;
+            };
         }
 
         return bees.stream()
@@ -128,15 +121,29 @@ public class BeeService {
         }
     }
 
+    @Transactional
     public void deleteBee(Long id) {
         Bee bee = beeRepository.findById(id)
                 .orElseThrow(() -> new BeeNotFoundException(id));
+
         if (bee.getBeeType() == BeeType.QUEEN && bee.getHive() != null) {
-            for (Bee everyBeedy : bee.getHive().getBees()) {
-                everyBeedy.setHive(null);
-                beeRepository.save(everyBeedy);
+            // Mentsük el egy változóba a kaptárat, hogy könnyebb legyen hivatkozni rá
+            var currentHive = bee.getHive();
+
+            // 1. Végigmegyünk a lakókon, DE a királynőt kihagyjuk!
+            for (Bee everyBeedy : currentHive.getBees()) {
+                if (!everyBeedy.getId().equals(bee.getId())) {
+                    everyBeedy.setHive(null);
+                    // A @Transactional miatt itt nem is kell külön beeRepository.save()!
+                }
             }
+
+            // 2. A LEGFONTOSABB: Letöröljük a királynőt a kaptár emlékezetéből (listájából)!
+            currentHive.getBees().remove(bee);
+            bee.setHive(null);
         }
+
+        // 3. Végleges kivégzés
         beeRepository.delete(bee);
     }
 }

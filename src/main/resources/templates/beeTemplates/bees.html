@@ -91,12 +91,12 @@
                            th:text="${bee.beeName}"
                            class="name-link">Bee name</a>
                     </h4>
-                    <div th:if="${bee.hiveId != null}" class="morph-btn btn-list btn-navi">
-                        <a th:href="@{/web/hives/{id}(id=${bee.hiveId})}" class="hive-link">
-                            <span class="btn-icon">❯</span>
-                            <span class="btn-text" th:text="${bee.hiveName}">Hive</span>
-                        </a>
-                    </div>
+                    <a th:if="${bee.hiveId != null}"
+                       th:href="@{/web/hives/{id}(id=${bee.hiveId})}"
+                       class="morph-btn btn-list btn-navi">
+                        <span class="btn-icon">❯</span>
+                        <span class="btn-text" th:text="${bee.hiveName}">Hive</span>
+                    </a>
                     <div th:if="${bee.hiveId == null}" class="morph-btn btn-list btn-navi">
                         <a th:href="@{/web/bees/move-in/{id}(id=${bee.id})}" class="assign-link">
                             <span class="btn-icon"> ✚</span>
